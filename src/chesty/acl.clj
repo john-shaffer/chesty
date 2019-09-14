@@ -9,7 +9,6 @@
    :admin [:owner]})
 
 (defprotocol ACL
-  :extend-via-metadata true
   (get-perm [this field role perm] "Get a permission value.")
   (set-perm [this field role perm value] "Set a permission value."))
 
@@ -66,18 +65,14 @@
         (for [role '[public user owner admin]
               perm '[read write]]
           [(keyword (str role \- perm))
-           (mapv keyword [role (str perm \?)])])))
+           (mapv kr/keywordize [role (str perm \?)])])))
 
 (def model-perm-aliases
   (into {}
         (for [role '[public user owner admin]
               perm '[create? delete? list?]]
           [(keyword (str role "-can-" perm))
-           (mapv keyword [role perm])])))
-
-(def aliases
-  (into (set (keys multi-perm-aliases))
-        (keys model-perm-aliases)))
+           (mapv kr/keywordize [role perm])])))
 
 (defn dealias-perms [model]
   (kr/deep-merge
@@ -97,7 +92,7 @@
 
 (defn new-model-perms [model]
   (apply dissoc
-  (->> (reduce #(update-in % [%2] (partial map keyword))
+  (->> (reduce #(update-in % [%2] (partial map kr/keywordize))
                model (keys multi-perm-aliases))
       dealias-perms
       (kr/deep-merge model))
