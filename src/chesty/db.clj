@@ -1,7 +1,21 @@
 (ns chesty.db
   (:require [chesty.db.views :as v]
             [clojure.string :as str]
-            [krulak :as kr]))
+            [krulak :as kr]
+            [manila-john :as mj]))
+
+(def ^:dynamic *sites-db*
+  (System/getenv "CHESTY_SITES_DB"))
+
+(defmacro with-sites-db [& body]
+  `(mj/with-db *sites-db* ~@body))
+
+(defn site-for-host [host]
+  (with-sites-db
+    (-> {:key (str/lower-case host)
+         :limit 1
+         :include_docs true}
+        v/sites-by-host first :doc)))
 
 (defn id [doc-or-id]
   (if (string? doc-or-id)

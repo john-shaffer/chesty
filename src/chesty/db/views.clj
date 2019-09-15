@@ -1,6 +1,16 @@
 (ns chesty.db.views
   (:require [manila-john :as mj :refer (defviews)]))
 
+(defviews "chesty-sites" :javascript
+  (sites-by-host
+   "function (doc) {
+       if (doc.type == 'chesty/site') {
+           for (var i in doc.hosts) {
+               emit(doc.hosts[i])
+           }
+       }
+    }"))
+
 (defviews "chesty-uris" :javascript
   (docs-by-uri
    "function (doc) {
