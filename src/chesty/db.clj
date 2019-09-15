@@ -25,8 +25,8 @@
 (defn user-id [doc]
   (or (:user-id doc) (id (:user doc))))
 
-(defn uri [doc]
-  (or (first (:uris doc)) (:uri doc)))
+(defn path [doc]
+  (or (first (:paths doc)) (:path doc)))
 
 (defn doc-for-uri [uri & options]
     (->> (merge {:include_docs true
