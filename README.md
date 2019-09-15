@@ -1,2 +1,2 @@
 # chesty
-Chesty is a Clojure web framework that uses sensible defaults to create websites in minutes.
+Chesty is a framework for building websites and APIs quickly and scalably.
