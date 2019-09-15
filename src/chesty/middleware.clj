@@ -14,11 +14,14 @@
             throw))))
 
 (defn wrap-db [f]
-  (mj/wrap-with-db f db-url))
+  (fn [request]
+    (mj/with-db (db-url request)
+      (f request))))
 
 (defn site-not-found [request]
   {:status 500
-   :body (str "No site found for host " (:server-name request))})
+   :body (str "No site found for host "
+              (get-in request [:headers "host"]))})
 
 (defn site-with-secret-keys [site]
   (if (seq (:secret-keys site))
@@ -31,7 +34,8 @@
 (defn wrap-site [f & {:keys [not-found-handler]
                       :or {not-found-handler site-not-found}}]
   (fn [request]
-    (let [site (db/site-for-host (:server-name request))
+    (let [site (or (db/site-for-host (get-in request [:headers "host"]))
+                   (db/site-for-host (:server-name request)))
           request (assoc request :chesty/site site)]
       (if (and (not site) not-found-handler)
         (not-found-handler request)
