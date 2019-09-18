@@ -4,8 +4,8 @@
   :license {:name "The MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [krulak "0.6.0-SNAPSHOT"]
-                 [manila-john "0.6.0-SNAPSHOT"]
+                 [krulak "0.6.0"]
+                 [manila-john "0.6.0"]
                  [medley "1.2.0"]
                  [valip "0.2.0"]]
   :repl-options {:init-ns chesty})
