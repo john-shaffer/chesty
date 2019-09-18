@@ -8,4 +8,6 @@
                  [manila-john "0.6.0"]
                  [medley "1.2.0"]
                  [valip "0.2.0"]]
+  :deploy-repositories [["releases" :clojars
+                         "snapshots" :clojars]]
   :repl-options {:init-ns chesty})
