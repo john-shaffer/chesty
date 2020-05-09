@@ -1,4 +1,4 @@
-(ns chesty.test-acl
+(ns chesty.acl-test
   (:use chesty.acl
         clojure.test))
 

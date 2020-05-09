@@ -1,4 +1,4 @@
-(ns chesty.test-api
+(ns chesty.api-test
   (:use chesty.api
         clojure.test
         krulak.test)
